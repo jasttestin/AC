@@ -1,0 +1,61 @@
+Here's the work for your order! Thanks for ordering!
+
+You can configure the bot in the file 'config.json':
+- bot_token: Put in here the bot's token that is from the developer portal (explained below)
+
+- blacklisted_channels: The names of the channels that will not have the rules posted / and invitations checked
+- blacklisted_roles: The names of the roles for the same above
+
+- rules: The rules that will be posted. Use '\n' for a new line, so: "rule 1\nrule2" will be sent as:
+"rule 1
+rule 2"
+
+- advertisements_per_day: The number of advertisements a user can send a day
+
+NOTE: The channels that are available to the rules messages must have a slowmode of at least 5-10 seconds+ to avoid the bot spamming!
+
+How to set up the bot:
+- Go to https://discordapp.com/developers/applications/
+- Click 'New Application'
+- Name the new application
+- Go to 'Bot'
+- Click 'Add Bot'
+- Click 'Copy' under the 'Click the Reveal Token' (make sure not to show this token to anyone else)
+- Paste this token into the 'bot_token' field in 'config.json'
+- Go to 'OAuth2'
+- Scroll to the bottom
+- Check 'bot' in the Scopes area
+- Then a new list will appear at the bottom, so scroll down to get to 'Bot permissions'
+- Check 'Administrator'
+- Click the blue 'Copy' button that is right above it
+- Go to the copied URL and invite the bot
+
+To start the bot:
+- Open a command prompt in the directory of where you extracted the files I sent you
+- If you're on Windows, you can do that by doing 'cd <dir>' where <dir> is where the files are
+- Then when you are there in the command prompt, type 'npm install'
+- If you get an error (something like npm not being installed, you will need to install it from https://www.npmjs.com/get-npm)
+- Try to do 'npm install' after you installed npm (if you got the error before)
+- If you get an error saying that it failed when installing 'better-sqlite3' or 'node-gyp' install scripts, please follow the guide at the bottom.
+- Type 'node index' and the bot should start
+
+Error guide (this is for Windows operating system)
+Some possible solutions: (after every command, please close the command prompt and open a new one, and deleting the 'node_modules' and executing 'npm install'. You should copy the command to get to the directory to avoid time wasted.)
+	Open a Powershell as Administrator and type these commands:
+		npm install --vs2015 -g windows-build-tools
+		npm i -g --prodution --vs2015 --add-python-to-path windows-build-tools node-gyp
+
+	If those don't work, try this:
+		In the file manager, paste '%USERPROFILE%/.node-gyp' into the file URL: http://prntscr.com/oo5ykj
+		Delete the '.node-gyp' folder.
+		Go to the work directory and delete the 'node_modules' folder again.
+		Open a Powershell as Administrator.
+		Run this command:
+			npm install --global --production --vs2015 --add-python-to-path windows-build-tools
+		Run this command when that finishes:
+			npm install --global --production --add-python-to-path windows-build-tools node-gyp
+		Close the Powershell when the command finishes, and open a new command prompt.
+		Execute this command:
+			npm install
+
+If you run into errors or you want things changed, please contact me (Introzoid) and I'll modified it with in part of the revision amount.

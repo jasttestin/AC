@@ -1,0 +1,7 @@
+﻿{
+	"bot_token": "",
+	"blacklisted_channels": ["general", "off-topic", "logs", "『📺』unlimited-ads"],
+	"blacklisted_roles": ["", ""],
+	"rules": "**Rules**:\n- Post an invite with a description\n- You can only post a few invites per day",
+	"advertisements_per_day": 10
+}
