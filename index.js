@@ -77,6 +77,8 @@ client.on('message', async (message) => {
   if (!row) return client.db.prepare('INSERT INTO limits (snowflake, guild, current) VALUES (?, ?, 1)').run(message.author.id, message.guild.id);
 
   if (config.blacklisted_channels.some(element => element === message.channel.name)) {
+
+    message.delete();
     message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
       const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
@@ -97,7 +99,6 @@ client.on('message', async (message) => {
       }
     }).catch(console.error);
     
-    message.channel.send("Test");
     return;
   } //blacklisted channels have to have invite but no limit.
 
