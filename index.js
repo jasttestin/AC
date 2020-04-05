@@ -58,7 +58,6 @@ client.on('message', async (message) => {
       }
     }).catch(console.error);
 
-  if (config.blacklisted_channels.some(element => element === message.channel.name)) return;
 
   if (!message.member) await message.guild.fetchMember(message.author); // cache the member to avoid errors later
 
@@ -76,6 +75,8 @@ client.on('message', async (message) => {
 
   const row = client.db.prepare('SELECT id,current FROM limits WHERE snowflake = ? AND guild = ?').get(message.author.id, message.guild.id);
   if (!row) return client.db.prepare('INSERT INTO limits (snowflake, guild, current) VALUES (?, ?, 1)').run(message.author.id, message.guild.id);
+
+  if (config.blacklisted_channels.some(element => element === message.channel.name)) return; //blacklisted channels have to have invite but no limit.
 
   if (row.current >= config.advertisements_per_day) {
     message.delete();
