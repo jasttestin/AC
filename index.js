@@ -41,7 +41,9 @@ client.on('message', async (message) => {
   message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
       const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
-      if ((messages && messages.size <= 0) || !messages) message.channel.send({
+
+     
+      if ((messages && messages.size <= 0) || !messages || !config.blacklisted_channels.some(element => element === message.channel.name)) message.channel.send({
         embed: {
           description: config.rules,
           color: 11344153,
@@ -98,6 +100,7 @@ client.on('message', async (message) => {
         });
       }
     }).catch(console.error);
+    
     
     return;
   } //blacklisted channels have to have invite but no limit.
