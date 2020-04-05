@@ -41,49 +41,6 @@ client.on('message', async (message) => {
   message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
       const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
-
-     
-      if ((messages && messages.size <= 0) || !messages || !config.blacklisted_channels.some(element => element === message.channel.name)) message.channel.send({
-        embed: {
-          description: config.rules,
-          color: 11344153,
-        },
-      });
-      else {
-        message.channel.bulkDelete(messages).catch(console.error);
-        message.channel.send({
-          embed: {
-            description: config.rules,
-            color: 11344153,
-          },
-        });
-      }
-    }).catch(console.error);
-
-
-  if (!message.member) await message.guild.fetchMember(message.author); // cache the member to avoid errors later
-
-  if (message.member.roles.some(role => config.blacklisted_roles.includes(role.name))) return;
-
-  if (!client.checkInvite(message)) {
-    message.reply('you need to send an invite and a description.').then(m => m.delete(5000).catch(() => {}));
-    return message.delete();
-  }
-
-  if (client.checkInvite(message) && message.cleanContent.replace(/\s/g, '').replace(/discord(?:app\.com\/invite|\.gg(?:\/invite)?)\/([\w-]{2,255})/i, '').length <= 0) {
-    message.reply('you need to send an invite and a description.').then(m => m.delete(5000).catch(() => {}));
-    return message.delete();
-  }
-
-  const row = client.db.prepare('SELECT id,current FROM limits WHERE snowflake = ? AND guild = ?').get(message.author.id, message.guild.id);
-  if (!row) return client.db.prepare('INSERT INTO limits (snowflake, guild, current) VALUES (?, ?, 1)').run(message.author.id, message.guild.id);
-
-  if (config.blacklisted_channels.some(element => element === message.channel.name)) {
-
-    message.delete();
-    message.channel.fetchMessages({ limit: 50 })
-    .then(collected => {
-      const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
       if ((messages && messages.size <= 0) || !messages) message.channel.send({
         embed: {
           description: config.rules,
@@ -100,14 +57,29 @@ client.on('message', async (message) => {
         });
       }
     }).catch(console.error);
-    
-    
-    return;
-  } //blacklisted channels have to have invite but no limit.
+
+  if (config.blacklisted_channels.some(element => element === message.channel.name)) return;
+
+  if (!message.member) await message.guild.fetchMember(message.author); // cache the member to avoid errors later
+
+  if (message.member.roles.some(role => config.blacklisted_roles.includes(role.name))) return;
+
+  if (!client.checkInvite(message)) {
+    message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
+    return message.delete();
+  }
+
+  if (client.checkInvite(message) && message.cleanContent.replace(/\s/g, '').replace(/discord(?:app\.com\/invite|\.gg(?:\/invite)?)\/([\w-]{2,255})/i, '').length <= 0) {
+    message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
+    return message.delete();
+  }
+
+  const row = client.db.prepare('SELECT id,current FROM limits WHERE snowflake = ? AND guild = ?').get(message.author.id, message.guild.id);
+  if (!row) return client.db.prepare('INSERT INTO limits (snowflake, guild, current) VALUES (?, ?, 1)').run(message.author.id, message.guild.id);
 
   if (row.current >= config.advertisements_per_day) {
     message.delete();
-    return message.reply('you cannot post anymore advertisements for today.').then(m => m.delete(5000).catch(() => {}));
+    return message.reply('you cannot post anymore advertisements for today.').then(m => m.delete(10000).catch(() => {}));
   }
   client.db.prepare('UPDATE limits SET current = ? WHERE id = ?').run(row.current + 1, row.id);
 });
