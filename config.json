@@ -2,6 +2,6 @@
 	"bot_token": "",
 	"blacklisted_channels": ["『💬』chat", "『📷』images", "『🤖』bot-channel", "『✅』bump-us", "『📺』unlimited-ads"],
 	"blacklisted_roles": ["", ""],
-	"rules": "**Rules**:\n➥ Post an invite with a description\n➥ You can only post 10 invites per day (unlimited not included)\n➥ Post in the correct channels\n➥ Post in the correct channels",
+	"rules": "**Rules**:\n➥ Post an invite with a description\n➥ You can only post 10 invites per day (unlimited not included)\n➥ Post in the correct channels",
 	"advertisements_per_day": 10
 }
