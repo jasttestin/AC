@@ -64,23 +64,32 @@ client.on('message', async (message) => {
   if (message.member.roles.some(role => config.blacklisted_roles.includes(role.name))) return;
 
   if (!client.checkInvite(message)) {
-    message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
+    message.reply('you need to send an invite and a description.').then(m => m.delete(5000).catch(() => {}));
     return message.delete();
   }
 
   if (client.checkInvite(message) && message.cleanContent.replace(/\s/g, '').replace(/discord(?:app\.com\/invite|\.gg(?:\/invite)?)\/([\w-]{2,255})/i, '').length <= 0) {
-    message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
+    message.reply('you need to send an invite and a description.').then(m => m.delete(5000).catch(() => {}));
     return message.delete();
   }
 
   const row = client.db.prepare('SELECT id,current FROM limits WHERE snowflake = ? AND guild = ?').get(message.author.id, message.guild.id);
   if (!row) return client.db.prepare('INSERT INTO limits (snowflake, guild, current) VALUES (?, ?, 1)').run(message.author.id, message.guild.id);
 
-  if (config.blacklisted_channels.some(element => element === message.channel.name)) return; //blacklisted channels have to have invite but no limit.
+  if (config.blacklisted_channels.some(element => element === message.channel.name)) {
+    message.channel.bulkDelete(messages).catch(console.error);
+    message.channel.send({
+      embed: {
+        description: config.rules,
+        color: 11344153,
+      },
+    });
+    return;
+  } //blacklisted channels have to have invite but no limit.
 
   if (row.current >= config.advertisements_per_day) {
     message.delete();
-    return message.reply('you cannot post anymore advertisements for today.').then(m => m.delete(10000).catch(() => {}));
+    return message.reply('you cannot post anymore advertisements for today.').then(m => m.delete(5000).catch(() => {}));
   }
   client.db.prepare('UPDATE limits SET current = ? WHERE id = ?').run(row.current + 1, row.id);
 });
