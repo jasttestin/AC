@@ -86,11 +86,9 @@ client.on('message', async (message) => {
 
 client.login(process.env.token);
 
-
 process.on('unhandledRejection', console.error);
 process.on('uncaughtException', console.error);
 client.on('warn', console.error);
 client.on('error', console.error);
 client.on('reconnecting', console.error);
 client.on('resume', console.error);
-
