@@ -58,7 +58,6 @@ client.on('message', async (message) => {
       }
     }).catch(console.error);
 
-  if (config.blacklisted_channels.some(element => element === message.channel.name)) return;
 
   if (!message.member) await message.guild.fetchMember(message.author); // cache the member to avoid errors later
 
@@ -68,6 +67,8 @@ client.on('message', async (message) => {
     message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
     return message.delete();
   }
+
+  if (config.blacklisted_channels.some(element => element === message.channel.name)) return;
 
   if (client.checkInvite(message) && message.cleanContent.replace(/\s/g, '').replace(/discord(?:app\.com\/invite|\.gg(?:\/invite)?)\/([\w-]{2,255})/i, '').length <= 0) {
     message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
