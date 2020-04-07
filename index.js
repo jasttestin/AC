@@ -79,8 +79,8 @@ client.on('message', async (message) => {
   if (!row) return client.db.prepare('INSERT INTO limits (snowflake, guild, current) VALUES (?, ?, 1)').run(message.author.id, message.guild.id);
 
   if (row.current >= config.advertisements_per_day) {
-    message.delete();
-    return message.reply('you cannot post anymore advertisements for today.').then(m => m.delete(10000).catch(() => {}));
+    message.reply('you cannot post anymore advertisements for today.').then(m => m.delete(10000).catch(() => {}));
+    return message.delete();
   }
   client.db.prepare('UPDATE limits SET current = ? WHERE id = ?').run(row.current + 1, row.id);
 });
