@@ -72,7 +72,7 @@ client.on('message', async (message) => {
 
   if (client.checkInvite(message) && message.cleanContent.replace(/\s/g, '').replace(/discord(?:app\.com\/invite|\.gg(?:\/invite)?)\/([\w-]{2,255})/i, '').length <= 0) {
     message.reply('you need to send an invite and a description.').then(m => m.delete(10000).catch(() => {}));
-    return message.delete();
+    return message.delete(); //ok
   }
 
   const row = client.db.prepare('SELECT id,current FROM limits WHERE snowflake = ? AND guild = ?').get(message.author.id, message.guild.id);
