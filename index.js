@@ -39,7 +39,7 @@ client.on('message', async (message) => {
   if (!message.author.id) return;
 
 
-  if (message.channel.id == "707702167552786442" && message.author.id == "696374653953900654") {
+  if (message.channel.id == "707702167552786442") {
       message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
         message.channel.bulkDelete(messages).catch(console.error);
