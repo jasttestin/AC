@@ -42,7 +42,7 @@ client.on('message', async (message) => {
   if (message.channel.id == "707702167552786442") {
       message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
-      const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
+      const messages = collected.filter(msg => msg.author.id === client.user.id);
         message.channel.bulkDelete(messages).catch(console.error);
         message.channel.send({
           embed: {
