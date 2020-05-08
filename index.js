@@ -39,10 +39,9 @@ client.on('message', async (message) => {
   if (!message.author.id) return;
 
 
-  if (message.channel.id == "707702167552786442") {
+  if (message.channel.id == "707702167552786442" && message.author.id == "696374653953900654") {
       message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
-      const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
         message.channel.bulkDelete(messages).catch(console.error);
         message.channel.send({
           embed: {
@@ -50,7 +49,9 @@ client.on('message', async (message) => {
             color: 11344153,
           },
         });
-    }).catch(console.error);
+      }).catch(console.error);
+
+    console.log('deleted messages');
 
     return;
   }
