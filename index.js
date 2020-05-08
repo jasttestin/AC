@@ -38,6 +38,29 @@ client.on('message', async (message) => {
   if (!message.author) return;
   if (!message.author.id) return;
 
+
+  if (message.channel.id == "707702167552786442") {
+      message.channel.fetchMessages({ limit: 50 })
+    .then(collected => {
+      const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
+      if ((messages && messages.size <= 0) || !messages) message.channel.send({
+        embed: {
+          description: config.rules1,
+          color: 11344153,
+        },
+      });
+      else {
+        message.channel.bulkDelete(messages).catch(console.error);
+        message.channel.send({
+          embed: {
+            description: config.rules1,
+            color: 11344153,
+          },
+        });
+      }
+    }).catch(console.error);
+  }
+
   message.channel.fetchMessages({ limit: 50 })
     .then(collected => {
       const messages = collected.filter(msg => msg.author.id === client.user.id && msg.embeds.length === 1 ? msg.embeds[0].description === config.rules : false);
