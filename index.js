@@ -59,6 +59,8 @@ client.on('message', async (message) => {
         });
       }
     }).catch(console.error);
+
+    return;
   }
 
   message.channel.fetchMessages({ limit: 50 })
