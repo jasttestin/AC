@@ -2,7 +2,7 @@
 	"bot_token": "",
 	"blacklisted_channels": ["『💬』chat", "『📷』images", "『🤖』bot-channel", "『✅』bump-us", "『📺』unlimited-ads"],
 	"blacklisted_roles": ["Owner", "Staff"],
-	"rules": "**Rules**:\n➥ Post an invite with a description\n➥ You can only post 10 invites per day (unlimited not included)\n➥ **Your advertisement will get removed once you leave**",
+	"rules": "**Rules**:\n➥ Post an invite with a description\n➥ **Your advertisement will get removed once you leave**\n ➥ Advertise your server for free on www.discordadvertising.com",
 	"rules1": "**Rules**:\n➥ No reward servers\n➥ Must be Discord TOS friendly and legal\n➥ No NSFW at all",
 	"advertisements_per_day": 10
 }
